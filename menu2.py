@@ -9,6 +9,7 @@ import json
 
 sC=[]
 itemj, pricej, desj = [], [], []
+
 class MenuSpider(scrapy.Spider):
     name = "menu2"
     start_urls = [
@@ -33,17 +34,19 @@ class MenuSpider(scrapy.Spider):
         # print json.dumps(sc)
         # print sC
 
+def main():
+    process = CrawlerProcess({
+        'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
+        'FEED_FORMAT': 'json',
+        'FEED_URI': 'result.json'
+    })
 
-process = CrawlerProcess({
-    'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
-    'FEED_FORMAT': 'json',
-    'FEED_URI': 'result.json'
-})
+    process.crawl(MenuSpider)
+    process.start() 
+    return sC 
 
-process.crawl(MenuSpider)
-process.start() 
-print sC          
-
+if __name__ == "__main__":
+    x= main()        
 
 # https://api.paitoo.com.pk/restaurants/all
 # https://api.paitoo.com.pk/restaurants/restaurant/5ab51d5f62013e000f885c13
