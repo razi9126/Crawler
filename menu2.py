@@ -13,7 +13,9 @@ class MenuSpider(scrapy.Spider):
 
     def parse(self, response):
         place =response.css("h1.fn::text").extract_first().strip()
-        for it in response.css('div.menu__items ul.dish-list'):
+        x=response.css('div.menu__items ul.dish-list')
+        for i in range(0,(len(x)-1)):
+            it = x[i]
             for item in it.css('li'):
                 # yield{
                 #     'item': item.css("h3 span::text").extract_first().strip(),
