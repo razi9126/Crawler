@@ -5,44 +5,42 @@ import json
 
 # Goes to a url in start url array and fetches all the menu items and prices. stores these in 
 # the global variable sC. These values are returned by the values function. This function should be
-# called by the other python script for each url. Need to figure a way to pass the url as argument too.
+# called by the other python script for each url.
+# Takes the url from the user and returns the corresponding menu
 
 sC=[]
 itemj, pricej, desj = [], [], []
 
 class MenuSpider(scrapy.Spider):
     name = "menu2"
-    start_urls = [
-        'https://www.foodpanda.pk/restaurant/s2ao/second-cup-coffee-company-gulberg'
-    ]
+    # start_urls = [
+    #     'https://www.foodpanda.pk/restaurant/s2ao/second-cup-coffee-company-gulberg'
+    # ]
+    start_urls = []
+    def __init__(self, x):
+        self.start_urls = [x]
 
     def parse(self, response):
         x=response.css('div.menu__items ul.dish-list')
         for i in range(0,(len(x)-1)):
             it = x[i]
             for item in it.css('li'):
-                # yield{
-                #     'item': item.css("h3 span::text").extract_first().strip(),
-                #     'price': item.css("footer span::text").extract_first().strip(),
-                #     'description': item.css("p::text").extract_first()
-                # }
                 itemj.append(item.css("h3 span::text").extract_first().strip())
                 pricej.append(item.css("footer span::text").extract_first().strip())
                 desj.append(item.css("p::text").extract_first())
         global sC
         sC = [{"Item": t, "Price": s, "Desc": d} for t, s, d in zip(itemj, pricej, desj)]
-        # print json.dumps(sc)
-        # print sC
 
-def values():
+
+def values(url):
     process = CrawlerProcess({
         'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
-        'FEED_FORMAT': 'json',
-        'FEED_URI': 'result.json',
+        # 'FEED_FORMAT': 'json',
+        # 'FEED_URI': 'result.json',
         'LOG_ENABLED' : False
     })
 
-    process.crawl(MenuSpider)
+    process.crawl(MenuSpider, x=url)
     process.start() 
     return sC 
    

@@ -13,6 +13,6 @@ data = r.json()
 
 for i in data:
 	if 'foodpandaUrl' in i:
-		# print i['foodpandaUrl']
-		menu =menu2.values()
+		print i['foodpandaUrl']
+		menu =menu2.values(i['foodpandaUrl'])
 		print menu
