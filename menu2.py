@@ -2,8 +2,12 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 import os
 import json
-sC=[]
 
+# Goes to a url in start url array and fetches all the menu items and prices. stores these in 
+# the global variable sC. Now need to pass the url as a commandline argument so that this script can be run 
+# for every foodpanda url.
+
+sC=[]
 itemj, pricej, desj = [], [], []
 class MenuSpider(scrapy.Spider):
     name = "menu2"
@@ -12,7 +16,6 @@ class MenuSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        place =response.css("h1.fn::text").extract_first().strip()
         x=response.css('div.menu__items ul.dish-list')
         for i in range(0,(len(x)-1)):
             it = x[i]
@@ -25,10 +28,10 @@ class MenuSpider(scrapy.Spider):
                 itemj.append(item.css("h3 span::text").extract_first().strip())
                 pricej.append(item.css("footer span::text").extract_first().strip())
                 desj.append(item.css("p::text").extract_first())
-
+        global sC
         sC = [{"Item": t, "Price": s, "Desc": d} for t, s, d in zip(itemj, pricej, desj)]
         # print json.dumps(sc)
-        print sC
+        # print sC
 
 
 process = CrawlerProcess({
@@ -38,8 +41,9 @@ process = CrawlerProcess({
 })
 
 process.crawl(MenuSpider)
-process.start()           
-print sC
+process.start() 
+print sC          
+
 
 # https://api.paitoo.com.pk/restaurants/all
 # https://api.paitoo.com.pk/restaurants/restaurant/5ab51d5f62013e000f885c13
