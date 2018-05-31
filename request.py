@@ -16,7 +16,6 @@ for rest in data:
 	if 'foodpandaUrl' in rest:
 		menu =menu2.values(rest['foodpandaUrl'])
 		for item in menu:
-			# print item
 			newurl= url + '/'+ rest['_id']
 			sent = requests.post(newurl, data=item)
 			print(sent.status_code, sent.reason)

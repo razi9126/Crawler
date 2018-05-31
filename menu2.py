@@ -13,9 +13,6 @@ itemj, pricej, desj = [], [], []
 
 class MenuSpider(scrapy.Spider):
     name = "menu2"
-    # start_urls = [
-    #     'https://www.foodpanda.pk/restaurant/s2ao/second-cup-coffee-company-gulberg'
-    # ]
     start_urls = []
     def __init__(self, x):
         self.start_urls = [x]
@@ -30,7 +27,6 @@ class MenuSpider(scrapy.Spider):
                 desj.append(item.css("p::text").extract_first())
         global sC
         sC = [{"Item": t, "Price": s, "Desc": d} for t, s, d in zip(itemj, pricej, desj)]
-        # print sC
 
 def values(url):
     process = CrawlerProcess({
@@ -42,10 +38,8 @@ def values(url):
 
     process.crawl(MenuSpider, x=url)
     process.start() 
-    # print sC
-    return sC 
    
-    # print x   
+    return sC 
 
 # https://api.paitoo.com.pk/restaurants/all
 # https://api.paitoo.com.pk/restaurants/restaurant/5ab51d5f62013e000f885c13
