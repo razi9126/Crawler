@@ -6,7 +6,7 @@ import json
 # Goes to a url in start url array and fetches all the menu items and prices. stores these in 
 # the global variable sC. These values are returned by the values function. This function should be
 # called by the other python script for each url.
-# Takes the url from the user and returns the corresponding menu
+# Takes the url from the user as argument of the values function and returns the corresponding menu
 
 sC=[]
 itemj, pricej, desj = [], [], []
