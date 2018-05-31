@@ -10,9 +10,14 @@ import menu2
 
 r = requests.get("https://api.paitoo.com.pk/restaurants/all")
 data = r.json()
-
-for i in data:
-	if 'foodpandaUrl' in i:
-		print i['foodpandaUrl']
-		menu =menu2.values(i['foodpandaUrl'])
-		print menu
+url = 'https://api.paitoo.com.pk/restaurants/newMenuItem'
+for rest in data:
+	if 'foodpandaUrl' in rest:
+		# print rest['foodpandaUrl']
+		# print rest
+		menu =menu2.values(rest['foodpandaUrl'])
+		for item in menu:
+			print item
+			newurl= url + '/'+ rest['_id']
+			sent = requests.post(newurl, data=item)
+			print(sent.status_code, sent.reason)

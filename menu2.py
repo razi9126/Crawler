@@ -30,7 +30,7 @@ class MenuSpider(scrapy.Spider):
                 desj.append(item.css("p::text").extract_first())
         global sC
         sC = [{"Item": t, "Price": s, "Desc": d} for t, s, d in zip(itemj, pricej, desj)]
-
+        # print sC
 
 def values(url):
     process = CrawlerProcess({
@@ -42,6 +42,7 @@ def values(url):
 
     process.crawl(MenuSpider, x=url)
     process.start() 
+    # print sC
     return sC 
    
     # print x   
