@@ -16,8 +16,10 @@ data = r.json()
 url = 'https://api.paitoo.com.pk/restaurants/newMenuItem'
 for rest in data:
 	if 'foodpandaUrl' in rest:
+		print rest['foodpandaUrl']
 		menu =menu2.values(rest['foodpandaUrl'])
 		for item in menu:
 			newurl= url + '/'+ rest['_id']
+			# print item
 			sent = requests.post(newurl, data=item)
 			print(sent.status_code, sent.reason)
