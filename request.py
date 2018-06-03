@@ -8,8 +8,9 @@ import menu2
 # Calls the values function of menu2.py for each url. Menu is the array of json objects. Each
 # object is a menu item.
 # Sends the post request for each menu item to the api for that particular restaurant id
-
 # Should output (200,OK) for all individual menu items
+
+# --MOHAMMAD RAZI UL HAQ--
 
 r = requests.get("https://api.paitoo.com.pk/restaurants/all")
 data = r.json()
