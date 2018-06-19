@@ -45,38 +45,41 @@ def log_error(e):
 
 def values(url):
 	raw_html = simple_get(url)
-	html = BeautifulSoup(raw_html, 'html.parser')
-	if len(html)>2:
-		categories = html.find_all('div',{'class':'dish-category-header'})
+	if raw_html is not None:
+		html = BeautifulSoup(raw_html, 'html.parser')
+		if len(html)>2:
+			categories = html.find_all('div',{'class':'dish-category-header'})
 
-		x = html.find_all('ul',{'class':'dish-list'})				#all the dishes of all categories
+			x = html.find_all('ul',{'class':'dish-list'})				#all the dishes of all categories
 
-		i=0
-		while (i < len(x)):
-			while (i!=len(x)):
+			i=0
+			while (i < len(x)):
+				while (i!=len(x)):
 
-				category = categories[i].text.strip()
-				if 'Beverage' in category:
-					i=i+1
-				elif 'Deal' in category:
-					i=i+1
-				else:
-					break
-			
-			if (i == len(x)):
-				break    
-			category=categories[i].text.strip()
-			it = x[i]  						#decided the category to expand
-			html2 = BeautifulSoup(str(it), 'html.parser')
-			for item in html2.find_all('li'):
-				html3 = BeautifulSoup(str(item), 'html.parser')
-				itemj.append(html3.find('h3',{'class':'dish-name fn p-name'}).text.strip())
-				pricej.append(html3.find('span',{'class':'price p-price'}).text.strip())
-				catj.append(category)
-			
-			i=i+1
-		global sC
-		sC = [{"name": t,"category": c, "price": s,  "shouldClassify": True} for t, c, s in zip(itemj, catj, pricej)]
+					category = categories[i].text.strip()
+					if 'Beverage' in category:
+						i=i+1
+					elif 'Deal' in category:
+						i=i+1
+					else:
+						break
+				
+				if (i == len(x)):
+					break    
+				category=(categories[i].text.strip()).split('\n')[0]
+				it = x[i]  						#decided the category to expand
+				html2 = BeautifulSoup(str(it), 'html.parser')
+				for item in html2.find_all('li'):
+					html3 = BeautifulSoup(str(item), 'html.parser')
+					itemj.append(html3.find('h3',{'class':'dish-name fn p-name'}).text.strip())
+					pricej.append(html3.find('span',{'class':'price p-price'}).text.strip())
+					catj.append(category)
+				
+				i=i+1
+			global sC
+			sC = [{"name": t,"category": c, "price": s,  "shouldClassify": True} for t, c, s in zip(itemj, catj, pricej)]
+		else:
+			sC=[]
 	else:
-		sc=[]
+		sC =[]
 	return sC
